@@ -1,3 +1,6 @@
 *.debug
 *.swp
 *.swo
+*.hi
+*.o
+Main
