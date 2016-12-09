@@ -9,7 +9,7 @@ main = do
   let rooms = map toRoom $ lines input
   putStrLn . show $ sumValidRooms rooms
 --  putStrLn . unlines $ map show $ decodeRooms rooms
-  putStrLn . show . getSID . head $ filter (\r -> decodeName r == "northpole object storage") rooms
+  putStrLn . show $ map getSID $ filter (\r -> decodeName r == "northpole object storage") rooms
 
 data Room = Room { getName :: String
                  , getSID  :: Int
@@ -52,5 +52,3 @@ sortGT (a1, b1) (a2, b2)
   | a1 < a2 = GT
   | a1 > a2 = LT
   | a1 == a2 = compare b1 b2
-
-encrypted = toRoom "qzmt-zixmtkozy-ivhz-343-[zimth]"
