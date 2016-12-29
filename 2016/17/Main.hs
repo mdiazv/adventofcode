@@ -10,7 +10,7 @@ main :: IO ()
 main = do
   solve "ihgpwlah"
   solve "kglvqrro"
-  solve "kglvqrro"
+  solve "ulqzkmiv"
   solve "vkjiggvb"
 
 solve :: Route -> IO ()
