@@ -38,4 +38,4 @@ augmentRange' range@(low, high) rss@((newlow, newhigh):rs)
 parse :: String -> Range
 parse line = (read a, read b)
   where
-    (a, '-':b) = span (/='-') line
+    (a, '-':b) = break (=='-') line
