@@ -21,21 +21,19 @@ mergeRanges :: [Range] -> [Range]
 mergeRanges [] = []
 mergeRanges rs = bigrange : mergeRanges rs'
   where
-    (bigrange, rs') = augmentRange (head rs) (tail rs)
-
-augmentRange :: Range -> [Range] -> (Range, [Range])
-augmentRange range [] = (range, [])
-augmentRange range@(low, high) rss@((newlow, newhigh):rs)
-  | newlow <= high+1 = augmentRange (low, max high newhigh) rs
-  | otherwise = (range, rss)
+    (bigrange, rs') = augmentRange rs
 
 firstAllowed :: [Range] -> Int
-firstAllowed rs = foldl augment 0 rs
+firstAllowed = (+ 1) . snd . fst . augmentRange
 
-augment :: Int -> Range -> Int
-augment n (newlow, newhi)
-  | newlow <= n = max n (newhi+1)
-  | otherwise = n
+augmentRange :: [Range] -> (Range, [Range])
+augmentRange rs = augmentRange' (head rs) (tail rs)
+
+augmentRange' :: Range -> [Range] -> (Range, [Range])
+augmentRange' range [] = (range, [])
+augmentRange' range@(low, high) rss@((newlow, newhigh):rs)
+  | newlow <= high+1 = augmentRange' (low, max high newhigh) rs
+  | otherwise = (range, rss)
 
 parse :: String -> Range
 parse line = (read a, read b)
