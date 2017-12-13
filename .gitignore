@@ -1,6 +1,16 @@
+# Ignore all
+*
+
+# Unignore all with extensions
+!*.*
+
+# Unignore all dirs
+!*/
+
+## Above combo ignores binary files (no extension)
+
 *.debug
 *.swp
 *.swo
 *.hi
 *.o
-Main
