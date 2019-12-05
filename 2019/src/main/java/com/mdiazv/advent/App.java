@@ -4,8 +4,10 @@ import java.lang.Class;
 import java.util.Set;
 
 /**
- * Hello world!
+ * App is the entrypoint that should dispatch to the run method of the appropriate
+ * module for each day. Classes should be named DayX and belong to this package.
  *
+ * https://adventofcode.com/2019
  */
 public class App 
 {

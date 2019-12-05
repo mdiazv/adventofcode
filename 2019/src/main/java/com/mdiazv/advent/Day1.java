@@ -6,6 +6,11 @@ import java.io.InputStreamReader;
 import java.util.function.IntUnaryOperator;
 import java.util.stream.Stream;
 
+/**
+ * Day 1 -  https://adventofcode.com/2019/day/1
+ *
+ * Calculate the required amount of fuel to launch the spacecraft
+ */
 public class Day1 implements Day {
 	public String help() {
 		return "Day One - https://adventofcode.com/2019/day/1\n"
