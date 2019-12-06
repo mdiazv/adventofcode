@@ -16,7 +16,6 @@ public class App
 		String pkg = App.class.getPackage().getName();
 		try {
 			Class<?> cls = Class.forName(pkg + ".Day" + day);
-			System.out.println(cls);
 			return cls;
 		} catch (java.lang.ClassNotFoundException e) {
 			System.err.println("Solution for Day "+ day +" not implemented!");

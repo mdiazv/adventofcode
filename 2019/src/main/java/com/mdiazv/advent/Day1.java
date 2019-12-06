@@ -7,14 +7,15 @@ import java.util.function.IntUnaryOperator;
 import java.util.stream.Stream;
 
 /**
- * Day 1 -  https://adventofcode.com/2019/day/1
- *
+ * --- Day 1: The Tyranny of the Rocket Equation ---
  * Calculate the required amount of fuel to launch the spacecraft
+ *
+ * https://adventofcode.com/2019/day/1
  */
 public class Day1 implements Day {
 	public String help() {
 		return "Day One - https://adventofcode.com/2019/day/1\n"
-			+  "usage: ./advent 1 [input.txt]";
+			+  "usage: ./advent 1";
 	}
 	private InputStream getInputStream() {
 		return this.getClass().getResourceAsStream("/input/1.txt");
