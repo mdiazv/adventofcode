@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  */
 public class Day2 implements Day {
 	public String help() {
-		return "Day Two - https://adventofcode.com/2019/day/2\n"
+		return "Day 2: 1202 Program Alarm - https://adventofcode.com/2019/day/2\n"
 			+  "usage: ./advent 2";
 	}
 	private InputStream getInputStream() {

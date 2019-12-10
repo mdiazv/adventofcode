@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  */
 public class Day1 implements Day {
 	public String help() {
-		return "Day One - https://adventofcode.com/2019/day/1\n"
+		return "Day 1: The Tyranny of the Rocket Equation - https://adventofcode.com/2019/day/1\n"
 			+  "usage: ./advent 1";
 	}
 	private InputStream getInputStream() {
