@@ -3,11 +3,6 @@ package com.mdiazv.advent;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.function.IntUnaryOperator;
-import java.util.stream.Stream;
-import java.util.stream.Collectors;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
@@ -41,14 +36,11 @@ public class Day3 implements Day {
 		}
 	}
 	private static final Point ZERO = new Point(0, 0);
-	public static int distance(Point p) {
-		return Math.abs(p.x) + Math.abs(p.y);
-	}
 	public static int closestIntersection(Wire w1, Wire w2) {
 		return w1.intersections(w2)
 			.stream()
 			.filter(p -> !p.equals(ZERO))
-			.mapToInt(Day3::distance)
+			.mapToInt(p -> Math.abs(p.x) + Math.abs(p.y))
 			.min()
 			.orElse(-1);
 	}

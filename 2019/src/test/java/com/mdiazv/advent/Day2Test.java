@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Unit test for https://adventofcode.com/2019/day/1
+ * Unit test for https://adventofcode.com/2019/day/2
  */
 public class Day2Test 
     extends TestCase
