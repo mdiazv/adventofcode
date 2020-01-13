@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 import java.util.function.IntUnaryOperator;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
@@ -40,7 +41,7 @@ public class Day5 implements Day {
 	public void run() {
 		int[] program = parseProgram(getInputStream());
 		IntCodeComputer computer = new IntCodeComputer(program);
-		String output = computer.executeWith(new int[]{1});
+		Vector<Integer> output = computer.executeWith(new int[]{1});
 		System.out.println("Diagnostics output for ID 1: "+ output);
 		output = computer.executeWith(new int[]{5});
 		System.out.println("Diagnostics output for ID 5: "+ output);

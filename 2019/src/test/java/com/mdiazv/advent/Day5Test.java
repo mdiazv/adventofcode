@@ -39,7 +39,7 @@ public class Day5Test
         Integer expected = 42;
         IntCodeComputer computer = new IntCodeComputer(new int[]{3,0,4,0,99}, new int[]{expected});
         computer.execute();
-        String result = computer.output();
+        String result = computer.output().toString();
         assertEquals("Matching output", "[42]", result);
     }
 
@@ -74,7 +74,7 @@ public class Day5Test
         for (int i = 0; i < data.length; i++) {
             IntCodeComputer computer = new IntCodeComputer(data[i]);
             for (int j = 0; j < inputs.length; j++) {
-                String result = computer.executeWith(new int[]{inputs[j]});
+                String result = computer.executeWith(new int[]{inputs[j]}).toString();
                 assertEquals("Matching output "+i+","+j, expected[i][j], result);
             }
         }

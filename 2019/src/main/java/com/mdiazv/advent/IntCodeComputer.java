@@ -2,64 +2,110 @@ package com.mdiazv.advent;
 
 import java.util.Arrays;
 import java.util.Vector;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 class IntCodeInstructionMode {
 	public static final boolean POSITION = false;
 	public static final boolean IMMEDIATE = true;
 }
 
-class IntCodeInput {
+interface IntCodeIO {
+    void put(int v);
+	int consume();
+	void reset();
+}
+
+class ArrayIntCodeIO implements IntCodeIO {
 	private int[] values;
 	private int pos;
-	public IntCodeInput(int[] values) {
+	public ArrayIntCodeIO(int[] values) {
 		this.pos = 0;
 		this.values = values;
 	}
-	public int next() {
+	public void put(int v) {
+	    throw new RuntimeException("Unsupported method ArrayIntCodeIO.put");
+	}
+	public int consume() {
 		return values[pos++];
+	}
+	public void reset() {
+		pos = 0;
 	}
 }
 
-class IntCodeOutput {
+class VectorIntCodeIO implements IntCodeIO {
 	Vector<Integer> values;
-	public IntCodeOutput() {
+	private int pos;
+	public VectorIntCodeIO() {
+		this.pos = 0;
 		this.values = new Vector<Integer>();
 	}
-	public void emit(int value) {
+	public void put(int value) {
 		values.add(value);
 	}
-	public String toString() {
-		return values.toString();
+	public int consume() {
+		return values.get(pos++);
+	}
+	public void reset() {
+		pos = 0;
+		values.setSize(0);
+	}
+}
+
+class BlockingIntCodeIO implements IntCodeIO {
+	private BlockingQueue<Integer> queue;
+	public BlockingIntCodeIO() {
+		this.queue = new LinkedBlockingQueue<Integer>();
+	}
+	public BlockingIntCodeIO(int[] values) {
+		this();
+		for (int v : values) {
+			queue.add(v);
+		}
+	}
+	public void put(int v) {
+		queue.add(v);
+	}
+	public int consume() {
+		while (true) {
+			try {
+				return queue.take();
+			} catch (InterruptedException e) {}
+		}
+	}
+	public void reset() {
+		queue.clear();
 	}
 }
 
 class IntCodeComputer {
-	private int pc;
-	private boolean exited;
-	private int[] original;
-	private int[] program;
-	private IntCodeInput input;
-	private IntCodeOutput output;
+	protected int pc;
+	protected boolean exited;
+	protected int[] original;
+	protected int[] program;
+	protected IntCodeIO input;
+	protected IntCodeIO output;
 	public IntCodeComputer(int[] program) {
 		this.program = Arrays.copyOf(program, program.length);
 		this.original = Arrays.copyOf(program, program.length);
-		this.output = new IntCodeOutput();
+		this.output = new VectorIntCodeIO();
 	}
 	public IntCodeComputer(int[] program, int[] input) {
 		this(program);
-		this.input = new IntCodeInput(input);
+		this.input = new ArrayIntCodeIO(input);
 	}
 	public void execute() {
 		pc = 0;
 		exited = false;
-		this.output = new IntCodeOutput();
+		this.output.reset();
 		while (!exited) {
 			step();
 		}
 	}
-	public String executeWith(int[] input) {
+	public Vector<Integer> executeWith(int[] input) {
 		this.program = Arrays.copyOf(original, original.length);
-		this.input = new IntCodeInput(input);
+		this.input = new ArrayIntCodeIO(input);
 		execute();
 		return this.output();
 	}
@@ -79,7 +125,7 @@ class IntCodeComputer {
 			+  "pc: "+pc+"\n"
 			+  "program: "+Arrays.toString(program);
 	}
-	private void step() {
+	protected void step() {
 		int[] value = new int[3];
 		int code = fetch(pc, IntCodeInstructionMode.IMMEDIATE);
 		boolean[] mode = modes(code);
@@ -101,12 +147,12 @@ class IntCodeComputer {
 				break;
 			case 3: // Input
 				value[0] = fetch(pc+1, IntCodeInstructionMode.IMMEDIATE);
-				set(value[0], input.next());
+				set(value[0], input.consume());
 				pc += 2;
 				break;
 			case 4: // Output
 				value[0] = fetch(pc+1, mode[0]);
-				output.emit(value[0]);
+				output.put(value[0]);
 				pc += 2;
 				break;
 			case 5: // Jump if true
@@ -152,7 +198,41 @@ class IntCodeComputer {
 	public int[] state() {
 		return Arrays.copyOf(program, program.length);
 	}
-	public String output() {
-		return this.output.values.toString();
+	public Vector<Integer> output() {
+		return ((VectorIntCodeIO) this.output).values;
+	}
+}
+
+class ThreadedIntCodeComputer extends IntCodeComputer {
+	private Thread thread;
+	public ThreadedIntCodeComputer(int[] program) {
+		super(program);
+	}
+	public void executeWith(IntCodeIO input, IntCodeIO output) {
+		this.program = Arrays.copyOf(original, original.length);
+		this.input = input;
+		this.output = output;
+		this.thread = new Thread(this::execute);
+		this.thread.start();
+	}
+	public boolean done() {
+		return this.thread != null && !this.thread.isAlive();
+	}
+	public void join() {
+		try {
+			thread.join();
+			this.thread = null;
+		} catch (InterruptedException e) {
+			if (thread.isAlive()) {
+				join();
+			}
+		}
+	}
+	public void execute() {
+		pc = 0;
+		exited = false;
+		while (!exited) {
+			step();
+		}
 	}
 }
