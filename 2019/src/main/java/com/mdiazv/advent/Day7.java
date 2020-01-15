@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -22,11 +23,11 @@ public class Day7 implements Day {
     private InputStream getInputStream() {
         return this.getClass().getResourceAsStream("/input/7.txt");
     }
-    public static int[] parseProgram(InputStream in) {
+    public static long[] parseProgram(InputStream in) {
         try {
             String text = new BufferedReader(new InputStreamReader(in)).readLine();
             return Stream.of(text.split(","))
-                    .mapToInt(Integer::valueOf)
+                    .mapToLong(Long::valueOf)
                     .toArray();
         } catch (java.io.IOException e) {
             System.err.println("Could not load program");
@@ -34,7 +35,7 @@ public class Day7 implements Day {
             return null;
         }
     }
-    public static int largestOutputSignal(int[] program, IntegerPermutations p) {
+    public static long largestOutputSignal(long[] program, IntegerPermutations p) {
         ThreadedIntCodeComputer[] amps = new ThreadedIntCodeComputer[]{
                 new ThreadedIntCodeComputer(program),
                 new ThreadedIntCodeComputer(program),
@@ -49,14 +50,14 @@ public class Day7 implements Day {
                 new BlockingIntCodeIO(),
                 new BlockingIntCodeIO(),
         };
-        AtomicInteger best = new AtomicInteger(-1);
+        AtomicLong best = new AtomicLong(-1);
         p.forEach(x -> {
-            int r = runFeedbackLoop(amps, io, x);
+            long r = runFeedbackLoop(amps, io, x);
             best.updateAndGet(b -> r > b ? r : b);
         });
-        return best.intValue();
+        return best.longValue();
     }
-    public static int runFeedbackLoop(ThreadedIntCodeComputer[] amps, IntCodeIO[] io, Integer[] permutation) {
+    public static long runFeedbackLoop(ThreadedIntCodeComputer[] amps, IntCodeIO[] io, Integer[] permutation) {
         for (int i = 0 ; i < amps.length; i++) {
             io[i].put(permutation[i]);
             amps[i].executeWith(io[i], io[(i+1) % io.length]);
@@ -68,8 +69,8 @@ public class Day7 implements Day {
         return io[0].consume();
     }
     public void run() {
-        int[] program = parseProgram(getInputStream());
-        int best = largestOutputSignal(program, new IntegerPermutations(new Integer[]{0,1,2,3,4}));
+        long[] program = parseProgram(getInputStream());
+        long best = largestOutputSignal(program, new IntegerPermutations(new Integer[]{0,1,2,3,4}));
         System.out.println(("Largest output signal: "+best));
         best = largestOutputSignal(program, new IntegerPermutations(new Integer[]{5,6,7,8,9}));
         System.out.println(("Largest output signal with feedback: "+best));

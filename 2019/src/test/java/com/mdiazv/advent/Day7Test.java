@@ -36,7 +36,7 @@ public class Day7Test
      */
     public void testPermutations()
     {
-        int[][] data = {
+        long[][] data = {
                 // Max thruster signal 43210 (from phase setting sequence 4,3,2,1,0):
                 {3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0},
                 // Max thruster signal 54321 (from phase setting sequence 0,1,2,3,4):
@@ -44,9 +44,9 @@ public class Day7Test
                 // Max thruster signal 65210 (from phase setting sequence 1,0,4,3,2):
                 {3,31,3,32,1002,32,10,32,1001,31,-2,31,1007,31,0,33,1002,33,7,33,1,33,31,31,1,32,31,31,4,31,99,0,0,0},
         };
-        int[] expected = {43210,54321,65210};
+        long[] expected = {43210,54321,65210};
         for (int i = 0; i < data.length; i++) {
-            int result = Day7.largestOutputSignal(data[i], new IntegerPermutations(new Integer[]{0,1,2,3,4}));
+            long result = Day7.largestOutputSignal(data[i], new IntegerPermutations(new Integer[]{0,1,2,3,4}));
             assertEquals("Program: "+i, expected[i], result);
         }
     }
@@ -56,7 +56,7 @@ public class Day7Test
      */
     public void testThreaded()
     {
-        int[][] data = {
+        long[][] data = {
                 // Max thruster signal 139629729 (from phase setting sequence 9,8,7,6,5):
                 {3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,
                         27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5},
@@ -69,7 +69,7 @@ public class Day7Test
                 {9,8,7,6,5},
                 {9,7,8,5,6},
         };
-        int[] expected = {139629729, 18216};
+        long[] expected = {139629729, 18216};
 
         for (int i = 0; i < data.length; i++) {
             ThreadedIntCodeComputer[] amps = new ThreadedIntCodeComputer[]{
@@ -86,7 +86,7 @@ public class Day7Test
                     new BlockingIntCodeIO(),
                     new BlockingIntCodeIO(),
             };
-            int result = Day7.runFeedbackLoop(amps, io, permutation[i]);
+            long result = Day7.runFeedbackLoop(amps, io, permutation[i]);
             assertEquals("Program: "+i, expected[i], result);
         }
     }

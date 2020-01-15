@@ -22,11 +22,11 @@ public class Day2 implements Day {
 	private InputStream getInputStream() {
 		return this.getClass().getResourceAsStream("/input/2.txt");
 	}
-	public static int[] parseProgram(InputStream in) { 
+	public static long[] parseProgram(InputStream in) {
 		try {
 			String text = new BufferedReader(new InputStreamReader(in)).readLine();
 			return Stream.of(text.split(","))
-				.mapToInt(Integer::valueOf)
+				.mapToLong(Long::valueOf)
 				.toArray();
 		} catch (java.io.IOException e) {
 			System.err.println("Could not load program");
@@ -37,7 +37,7 @@ public class Day2 implements Day {
 	public static int[] searchForOutput(IntCodeComputer computer, int target) {
 		for (int noun = 0; noun < 1000; noun++) {
 			for (int verb = 0; verb < 1000; verb++) {
-				int output = computer.executeWith(noun, verb);
+				long output = computer.executeWith(noun, verb);
 				if (output == target) {
 					return new int[]{noun, verb};
 				}
@@ -46,9 +46,9 @@ public class Day2 implements Day {
 		return new int[]{-1, -1};
 	}
 	public void run() {
-		int[] program = parseProgram(getInputStream());
+		long[] program = parseProgram(getInputStream());
 		IntCodeComputer computer = new IntCodeComputer(program);
-		int result = computer.executeWith(12, 2);
+		long result = computer.executeWith(12, 2);
 		System.out.println("1202 produce: " + result);
 		int[] inputs = searchForOutput(computer, 19690720);
 		System.out.println("19690720 is produced by: "+(inputs[0] * 100 + inputs[1]));

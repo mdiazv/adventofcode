@@ -37,7 +37,7 @@ public class Day5Test
     public void testIO()
     {
         Integer expected = 42;
-        IntCodeComputer computer = new IntCodeComputer(new int[]{3,0,4,0,99}, new int[]{expected});
+        IntCodeComputer computer = new IntCodeComputer(new long[]{3,0,4,0,99}, new long[]{expected});
         computer.execute();
         String result = computer.output().toString();
         assertEquals("Matching output", "[42]", result);
@@ -48,7 +48,7 @@ public class Day5Test
      */
     public void testAdvanced()
     {
-        int[][] data = {
+        long[][] data = {
                 // Using position mode, consider whether the input is equal to 8; output 1 (if it is) or 0 (if it is not).
                 {3,9,8,9,10,9,4,9,99,-1,8},
                 // Using position mode, consider whether the input is less than 8; output 1 (if it is) or 0 (if it is not).
@@ -62,7 +62,7 @@ public class Day5Test
                 // take an input, then output 0 if the input was zero or 1 if the input was non-zero (immediate mode)
                 {3,3,1105,-1,9,1101,0,0,12,4,12,99,1}
         };
-        int[] inputs = {0,7,8,9};
+        long[] inputs = {0,7,8,9};
         String[][] expected = {
                 {"[0]", "[0]", "[1]", "[0]"},
                 {"[1]", "[1]", "[0]", "[0]"},
@@ -74,7 +74,7 @@ public class Day5Test
         for (int i = 0; i < data.length; i++) {
             IntCodeComputer computer = new IntCodeComputer(data[i]);
             for (int j = 0; j < inputs.length; j++) {
-                String result = computer.executeWith(new int[]{inputs[j]}).toString();
+                String result = computer.executeWith(new long[]{inputs[j]}).toString();
                 assertEquals("Matching output "+i+","+j, expected[i][j], result);
             }
         }
