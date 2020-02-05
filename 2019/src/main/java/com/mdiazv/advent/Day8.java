@@ -28,7 +28,7 @@ public class Day8 implements Day {
             String text = new BufferedReader(new InputStreamReader(in)).readLine();
             return new SpaceImage(text, w, h);
         } catch (java.io.IOException e) {
-            System.err.println("Could not load program");
+            System.err.println("Could not load image");
             System.exit(1);
             return null;
         }

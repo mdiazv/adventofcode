@@ -63,7 +63,6 @@ public class Day2Test
 			long[] initial = test[0];
 			long[] terminal = test[1];
 			IntCodeComputer computer = new IntCodeComputer(initial);
-			computer.debug = true;
 			computer.execute();
 			long[] result = computer.state();
 			for (int i = 0; i < terminal.length; i++) {
