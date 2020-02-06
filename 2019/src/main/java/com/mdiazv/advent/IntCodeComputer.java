@@ -1,9 +1,12 @@
 package com.mdiazv.advent;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.Vector;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 class IntCodeInstructionMode {
 	public static final int POSITION = 0;
@@ -56,11 +59,19 @@ class VectorIntCodeIO implements IntCodeIO {
 
 class BlockingIntCodeIO implements IntCodeIO {
 	private BlockingQueue<Long> queue;
+	private long timeoutMs;
 	public BlockingIntCodeIO() {
 		this.queue = new LinkedBlockingQueue<Long>();
 	}
-	public BlockingIntCodeIO(long[] values) {
+	public BlockingIntCodeIO(long timeoutMs) {
 		this();
+		this.timeoutMs = timeoutMs;
+	}
+	public BlockingIntCodeIO(long[] values) {
+		this(values, -1);
+	}
+	public BlockingIntCodeIO(long[] values, long timeoutMs) {
+	    this(timeoutMs);
 		for (long v : values) {
 			queue.add(v);
 		}
@@ -71,7 +82,14 @@ class BlockingIntCodeIO implements IntCodeIO {
 	public long consume() {
 		while (true) {
 			try {
-				return queue.take();
+				if (timeoutMs <= 0) {
+					return queue.take();
+				}
+				Long val = queue.poll(timeoutMs, TimeUnit.MILLISECONDS);
+				if (val == null) {
+					throw new NoSuchElementException("Couldn't consume input before timeout");
+				}
+				return val;
 			} catch (InterruptedException e) {}
 		}
 	}
@@ -143,7 +161,6 @@ class IntCodeComputer {
 			case 1: // Addition
 				value[0] = fetch(pc+1, mode[0]);
 				value[1] = fetch(pc+2, mode[1]);
-				//value[2] = fetch(pc+3, IntCodeInstructionMode.IMMEDIATE);
 				if (debug) {
 					System.out.println("addition: v0:" + program[pc + 1] + ":" + mode[0] + ":" + value[0]);
 					System.out.println("addition: v1:" + program[pc + 2] + ":" + mode[1] + ":" + value[1]);
@@ -155,7 +172,6 @@ class IntCodeComputer {
 			case 2: // Product
 				value[0] = fetch(pc+1, mode[0]);
 				value[1] = fetch(pc+2, mode[1]);
-				//value[2] = fetch(pc+3, IntCodeInstructionMode.IMMEDIATE);
 				if (debug) {
 					System.out.println("product: v0:" + program[pc + 1] + ":" + mode[0] + ":" + value[0]);
 					System.out.println("product: v1:" + program[pc + 2] + ":" + mode[1] + ":" + value[1]);
@@ -165,12 +181,6 @@ class IntCodeComputer {
 				pc += 4;
 				break;
 			case 3: // Input
-				/*
-				value[0] = fetch(pc+1, mode[0]);
-				if (debug) {
-					System.out.println("input: v0:" + program[pc + 1] + ":" + mode[0] + ":" + value[0]);
-				}
-				*/
 				set(pc + 1, mode[0], input.consume());
 				pc += 2;
 				break;
