@@ -1,3 +1,4 @@
+# https://adventofcode.com/2021/day/1
 from dataclasses import dataclass
 from functools import partial, reduce
 import sys
