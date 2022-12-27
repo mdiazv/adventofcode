@@ -10,17 +10,17 @@ further options could be added to it as problems require.
 The code is meant to be written in a very high level, creating abstractions
 whenever deems fit and trying to explore language features and limitations.
 
-## Requirements
+### Requirements
 
 * Nodejs
 
-## Setup
+### Setup
 
 ```
 npm install
 ```
 
-## Command Line Interface
+### Command Line Interface
 
 ```
 % npx ts-node advent.ts --help
@@ -35,7 +35,7 @@ Options:
   -h, --help     display help for command
   ```
 
-  ## Running Day 1
+### Running Day 1
 
   ```
   % npx ts-node advent.ts -d 1

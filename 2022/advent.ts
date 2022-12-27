@@ -1,7 +1,6 @@
 import { program, InvalidArgumentError } from 'commander';
 
 function parseDay(value: string, _: number) {
-    console.log('parsing day');
     let n = Number(value)
     if (isNaN(n) || n < 1 || n > 25) {
         throw new InvalidArgumentError('n should be a number in range [1, 25]');
@@ -19,7 +18,6 @@ program
 
 program.parse();
 const options = program.opts();
-console.log(options);
 
 async function main() {
     let day = options.day
