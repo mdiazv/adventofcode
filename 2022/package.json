@@ -1,0 +1,32 @@
+{
+  "name": "advent-of-code-2022",
+  "version": "0.0.1",
+  "description": "Advent of Code 2022 Implementation in Typescript",
+  "main": "advent.ts",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdiazv/adventofcode.git"
+  },
+  "keywords": [
+    "adventofcode",
+    "typescript"
+  ],
+  "author": "Miguel Diaz <diazvillarroelm@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mdiazv/adventofcode/issues"
+  },
+  "homepage": "https://github.com/mdiazv/adventofcode#readme",
+  "devDependencies": {
+    "@types/node": "^18.11.17",
+    "nodemon": "^2.0.20",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "commander": "^9.4.1"
+  }
+}
