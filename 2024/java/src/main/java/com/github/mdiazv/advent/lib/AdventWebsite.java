@@ -2,11 +2,10 @@ package com.github.mdiazv.advent.lib;
 
 import lombok.RequiredArgsConstructor;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Scanner;
@@ -24,13 +23,11 @@ public class AdventWebsite {
 
     public InputStream getInput(int day) {
         try {
-            URL url = new URL(String.format("https://adventofcode.com/2024/day/%d/input", day));
+            URL url = new URI(String.format("https://adventofcode.com/2024/day/%d/input", day)).toURL();
             URLConnection connection = url.openConnection();
             connection.addRequestProperty("Cookie", String.format("session=%s", session));
             return connection.getInputStream();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return null;
