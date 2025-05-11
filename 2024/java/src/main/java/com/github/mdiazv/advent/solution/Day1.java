@@ -16,13 +16,13 @@ public class Day1 implements Solution {
                 .lines()
                 .map(Pair::toIntPair)
                 .toList();
-        first = input.stream().map(Pair::getA).sorted().toList();
-        second = input.stream().map(Pair::getB).sorted().toList();
+        first = input.stream().map(Pair::a).sorted().toList();
+        second = input.stream().map(Pair::b).sorted().toList();
     }
 
     public Pair<String, Integer> part1() {
         int total_distance = Pair.zip(first, second).stream()
-                .mapToInt(p -> Math.abs(p.getA() - p.getB()))
+                .mapToInt(p -> Math.abs(p.a() - p.b()))
                 .sum();
         return new Pair("Total distance between Lists is: %d", total_distance);
     }

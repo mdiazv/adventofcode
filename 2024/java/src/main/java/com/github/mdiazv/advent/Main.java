@@ -30,10 +30,10 @@ public class Main {
         solution.parseInput(input);
 
         Pair<String,Integer> result1 = solution.part1();
-        System.out.format(result1.getA()+"\n", result1.getB());
+        System.out.format(result1.a()+"\n", result1.b());
 
         Pair<String,Integer> result2 = solution.part2();
-        System.out.format(result2.getA()+"\n", result2.getB());
+        System.out.format(result2.a()+"\n", result2.b());
 
         System.out.println(" --- --- --- --- ---");
     }

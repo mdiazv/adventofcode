@@ -18,26 +18,24 @@ class Day1Test {
             1   3
             3   9
             3   3""";
-    private InputStream inputStream;
     private Solution solution;
 
     @BeforeEach
     void setUp() {
-        inputStream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
+        InputStream inputStream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
         solution = new Day1();
+        solution.parseInput(inputStream);
     }
 
     @Test
     void test_part1() {
-        solution.parseInput(inputStream);
         Pair<String, Integer> part1 = solution.part1();
-        assertEquals(11, part1.getB());
+        assertEquals(11, part1.b());
     }
 
     @Test
     void test_part2() {
-        solution.parseInput(inputStream);
         Pair<String, Integer> part2 = solution.part2();
-        assertEquals(31, part2.getB());
+        assertEquals(31, part2.b());
     }
 }
