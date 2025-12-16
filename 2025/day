@@ -1,0 +1,5 @@
+#!/bin/bash
+
+day=$1
+in=$2
+javac -d out Day${day}.java && java -cp out Day${day} < day${day}.${in}
