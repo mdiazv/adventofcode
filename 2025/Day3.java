@@ -11,20 +11,18 @@ record Bank(String s) {
         }
         return jolt;
     }
-    private int nextBattery(String s, int start, int need, int N) {
-        int p =
-        "987654321".chars()
+    private int nextBattery(int start, int need) {
+        return "987654321".chars()
                 .map(s.substring(start)::indexOf)
-                .filter(j -> j >= 0 && start+j <= N-need)
+                .filter(j -> j >= 0 && start+j <= s.length()-need)
                 .findFirst()
                 .getAsInt();
-        return p;
     }
     long ultraMaxJoltage() {
         int k = 0, N = s.length();
         StringBuilder sb = new StringBuilder(12);
         for (int need = 12; need > 0; need--) {
-            int p = nextBattery(s, k, need, N);
+            int p = nextBattery(k, need);
             sb.append(s.charAt(k+p));
             k += p+1;
         }
