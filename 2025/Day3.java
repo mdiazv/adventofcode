@@ -19,7 +19,7 @@ record Bank(String s) {
                 .getAsInt();
     }
     long ultraMaxJoltage() {
-        int k = 0, N = s.length();
+        int k = 0;
         StringBuilder sb = new StringBuilder(12);
         for (int need = 12; need > 0; need--) {
             int p = nextBattery(k, need);
