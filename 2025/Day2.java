@@ -12,6 +12,7 @@ record ID(long val) {
         return String.valueOf(val).matches("^(\\d+)(\\1)+$");
     }
 }
+
 record Range(String first, String last) {
     static Range parse(String r) {
         String[] parts = r.split("-");

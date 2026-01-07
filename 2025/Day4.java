@@ -45,20 +45,19 @@ record World(char[][] w, int r, int c) {
     }
 }
 
-static class RollCollector {
-    static List<Pos> collect(World w) {
-        return w.accessibleRolls()
-                .peek(w::remove)
-                .toList();
-    }
-    static List<Pos> collectAll(World w) {
-        List<Pos> fresh, all = new LinkedList<>();
-        do {
-            fresh = collect(w);
-            all.addAll(fresh);
-        } while(!fresh.isEmpty());
-        return all;
-    }
+List<Pos> collect(World w) {
+    return w.accessibleRolls()
+            .peek(w::remove)
+            .toList();
+}
+
+List<Pos> collectAll(World w) {
+    List<Pos> fresh, all = new LinkedList<>();
+    do {
+        fresh = collect(w);
+        all.addAll(fresh);
+    } while(!fresh.isEmpty());
+    return all;
 }
 
 void main() {
@@ -68,6 +67,6 @@ void main() {
             .toList());
     long accessibleRolls = world.accessibleRolls().count();
     IO.println(String.format("There are %d initially accessible rolls", accessibleRolls));
-    long collectedRolls = RollCollector.collectAll(world).size();
+    long collectedRolls = collectAll(world).size();
     IO.println(String.format("We collected %d rolls!", collectedRolls));
 }
